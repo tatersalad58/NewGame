@@ -26,7 +26,7 @@ var update = function() {
     if (posX + tSize.width > canvas.width) { right = false }
     if (posY > canvas.height) { down = false }
     if (posX < 0 ) { right = true; }
-    if (posY + 30 < 0 ) { down = true; }
+    if (posY - 30 < 0 ) { down = true; }
     if (right) { posX += 1; } else { posX -= 1; }
     if (down) { posY += 1; } else { posY -= 1; }
 };
