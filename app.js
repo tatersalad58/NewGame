@@ -5,10 +5,16 @@ var ctx     = canvas.getContext('2d');
 
 // Application configuration.
 //
-var posX = 0;
-var posY = 0;
 
 ctx.font = '30px Arial';
+
+var posX = 0;
+var posY = 0;
+var text = "Hello World!";
+var tSize = ctx.measureText(text);
+var right = true;
+var down = true;
+
 
 /**
  *  @name           update()
@@ -16,9 +22,13 @@ ctx.font = '30px Arial';
  *
  */
 var update = function() {
-	console.log('Tick');
-	posX += 1;
-	posY += 1;
+    console.log('Tick');
+    if (posX + tSize.width > canvas.width) { right = false }
+    if (posY + 30 > canvas.height) { down = false }
+    if (posX < 0 ) { right = true; }
+    if (posY < 0 ) { down = true; }
+    if (right) { posX += 1; } else { posX -= 1; }
+    if (down) { posY += 1; } else { posY -= 1; }
 };
 
 /**
@@ -27,8 +37,9 @@ var update = function() {
  *
  */
 var draw = function() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillText('Hello world.', posX, posY);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillText(text, posX, posY);
+
 };
 
 // Main game loop.
@@ -40,17 +51,17 @@ var interval = 1000 / fps;
 var delta;
 
 var loop = function() {
-	requestAnimationFrame(loop);
+    requestAnimationFrame(loop);
 
-	now = Date.now();
-	delta = now - then;
+    now = Date.now();
+    delta = now - then;
 
-	if (delta > interval) {
-		then = now - (delta % interval);
+    if (delta > interval) {
+        then = now - (delta % interval);
 
-		update();
-		draw();
-	}
+        update();
+        draw();
+    }
 };
 
 requestAnimationFrame(loop);
