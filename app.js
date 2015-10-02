@@ -24,7 +24,7 @@ var down = true;
 var update = function() {
     console.log('Tick');
     if (posX + tSize.width > canvas.width) { right = false }
-    if (posY + 30 > canvas.height) { down = false }
+    if (posY > canvas.height) { down = false }
     if (posX < 0 ) { right = true; }
     if (posY < 0 ) { down = true; }
     if (right) { posX += 1; } else { posX -= 1; }
