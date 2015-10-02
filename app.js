@@ -44,7 +44,7 @@ var draw = function() {
 
 // Main game loop.
 //
-var fps = 30;
+var fps = 60;
 var now;
 var then = Date.now();
 var interval = 1000 / fps;
