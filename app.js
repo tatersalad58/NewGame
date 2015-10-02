@@ -5,6 +5,9 @@ var ctx     = canvas.getContext('2d');
 
 // Application configuration.
 //
+var posX = 0;
+var posY = 0;
+
 ctx.font = '30px Arial';
 
 /**
@@ -14,6 +17,8 @@ ctx.font = '30px Arial';
  */
 var update = function() {
 	console.log('Tick');
+	posX += 1;
+	posY += 1;
 };
 
 /**
@@ -21,15 +26,13 @@ var update = function() {
  *  @description    Draws the current state of the game to the canvas.
  *
  */
-
 var draw = function() {
-
-    ctx.fillText('Hello world.', 10, 30);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillText('Hello world.', posX, posY);
 };
 
 // Main game loop.
 //
-
 var fps = 30;
 var now;
 var then = Date.now();
@@ -38,7 +41,7 @@ var delta;
 
 var loop = function() {
 	requestAnimationFrame(loop);
-	
+
 	now = Date.now();
 	delta = now - then;
 
@@ -47,10 +50,7 @@ var loop = function() {
 
 		update();
 		draw();
-
-				
 	}
-
 };
 
 requestAnimationFrame(loop);
