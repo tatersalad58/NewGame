@@ -13,7 +13,7 @@ ctx.font = '30px Arial';
  *
  */
 var update = function() {
-
+	console.log('Tick');
 };
 
 /**
@@ -21,23 +21,36 @@ var update = function() {
  *  @description    Draws the current state of the game to the canvas.
  *
  */
+
 var draw = function() {
+
     ctx.fillText('Hello world.', 10, 30);
-};
-
-/**
- *  @name           think()
- *  @description    Wrapper function for the update and draw methods that
- *                  we will call from our game loop.
- *
- */
-var think = function() {
-    update();
-    draw();
-
-    window.requestAnimationFrame(think);
 };
 
 // Main game loop.
 //
-window.requestAnimationFrame(think);
+
+var fps = 30;
+var now;
+var then = Date.now();
+var interval = 1000 / fps;
+var delta;
+
+var loop = function() {
+	requestAnimationFrame(loop);
+	
+	now = Date.now();
+	delta = now - then;
+
+	if (delta > interval) {
+		then = now - (delta % interval);
+
+		update();
+		draw();
+
+				
+	}
+
+};
+
+requestAnimationFrame(loop);
