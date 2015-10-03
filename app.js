@@ -24,10 +24,6 @@ var update = function() {
  *  @description    Draws the current state of the game to the canvas.
  *
  */
-
-var mapImage = new Image();
-mapImage.src = 'map1.png';
-
 var draw = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -60,6 +56,9 @@ window.addEventListener('keyup', function(event) {
     if (event.keyCode == 39) { currentInput.right   = false; }
     if (event.keyCode == 40) { currentInput.down    = false; }
 }, true);
+
+var mapImage = new Image();
+mapImage.src = 'map1.png';
 
 var entities = [];
 var player = new Player({name: ':D', level: 1, model: 'character.png', position: {x: 50, y: 10}});
