@@ -5,11 +5,12 @@ var Player = function(playerData) {
     this.posX = playerData.position.x || 0;
     this.posY = playerData.position.y || 0;
 
-    this.width = 50;
-    this.height = 50;
 
     this.model = new Image();
     this.model.src = playerData.model;
+
+    this.width = 64;
+    this.height = 88;
 
     this.draw = function() {
         ctx.save();
@@ -18,11 +19,13 @@ var Player = function(playerData) {
         ctx.drawImage(this.model, this.posX, this.posY);
         
         ctx.restore();
+
+        console.log(this.width, this.height);
     };
 
     this.setX = function(x) {
-        if (x > canvas.width - this.width) {
-            this.posX = canvas.width - this.width;
+        if (x > canvas.width - this.width * 2) {
+            this.posX = canvas.width - this.width * 2;
         }
         if (x < 0) {
             this.posX = 0;

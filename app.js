@@ -62,7 +62,7 @@ window.addEventListener('keyup', function(event) {
 }, true);
 
 var entities = [];
-var player = new Player({name: ':D', level: 1, model: 'character.png', position: {x: 10, y: 10}});
+var player = new Player({name: ':D', level: 1, model: 'character.png', position: {x: 50, y: 10}});
 entities.push(player);
 
 var fps = 60;
