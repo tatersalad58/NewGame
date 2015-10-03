@@ -14,13 +14,8 @@ var Player = function(playerData) {
 
     this.draw = function() {
         ctx.save();
-        this.width = ctx.measureText(this.name).width * 2;
-
         ctx.drawImage(this.model, this.posX, this.posY);
-        
         ctx.restore();
-
-        console.log(this.width, this.height);
     };
 
     this.setX = function(x) {
