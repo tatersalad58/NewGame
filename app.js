@@ -61,7 +61,7 @@ var mapImage = new Image();
 mapImage.src = 'map1.png';
 
 var entities = [];
-var player = new Player({name: ':D', level: 1, model: 'character.png', position: {x: 50, y: 10}});
+var player = new Player({name: 'Juicebox', level: 1, model: 'character.png', position: {x: 50, y: 10}});
 entities.push(player);
 
 var fps = 60;
