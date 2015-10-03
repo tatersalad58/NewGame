@@ -1,4 +1,3 @@
-// Canvas drawing elements.
 //
 var canvas  = document.getElementById('gameContent');
 var ctx     = canvas.getContext('2d');
@@ -14,23 +13,10 @@ ctx.fillStyle = 'white';
  *
  */
 var update = function() {
-    console.log(currentInput);
-
-    if (currentInput.right) {
-        player.setX(player.posX += 3);
-    }
-    if (currentInput.down) {
-        player.setY(player.posY += 3);
-    }
-    if (currentInput.up) {
-        player.setY(player.posY -= 3);
-    }
-    if (currentInput.left) {
-        player.setX(player.posX -= 3);
-    }
-
-    playerTwo.setPositionOffset(5, -2);
-    // console.log('Tick');
+    if (currentInput.right) { player.setX(player.posX += 3); }
+    if (currentInput.down)  { player.setY(player.posY += 3); }
+    if (currentInput.up)    { player.setY(player.posY -= 3); }
+    if (currentInput.left)  { player.setX(player.posX -= 3); }
 };
 
 /**
@@ -38,8 +24,14 @@ var update = function() {
  *  @description    Draws the current state of the game to the canvas.
  *
  */
+
+var mapImage = new Image();
+mapImage.src = 'map1.png';
+
 var draw = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.drawImage(mapImage, 0, 0);
 
     entities.forEach(function(entity) {
         entity.draw();
@@ -56,30 +48,22 @@ var currentInput = {
 };
 
 window.addEventListener('keydown', function(event) {
-    if (event.keyCode == 38) { currentInput.up      = true; }
-    if (event.keyCode == 40) { currentInput.down    = true; }
-    if (event.keyCode == 39) { currentInput.right   = true; }
     if (event.keyCode == 37) { currentInput.left    = true; }
+    if (event.keyCode == 38) { currentInput.up      = true; }
+    if (event.keyCode == 39) { currentInput.right   = true; }
+    if (event.keyCode == 40) { currentInput.down    = true; }
 }, true);
 
 window.addEventListener('keyup', function(event) {
-    if (event.keyCode == 38) { currentInput.up      = false; }
-    if (event.keyCode == 40) { currentInput.down    = false; }
-    if (event.keyCode == 39) { currentInput.right   = false; }
     if (event.keyCode == 37) { currentInput.left    = false; }
+    if (event.keyCode == 38) { currentInput.up      = false; }
+    if (event.keyCode == 39) { currentInput.right   = false; }
+    if (event.keyCode == 40) { currentInput.down    = false; }
 }, true);
 
 var entities = [];
-
-var player = new Player('Blake', 1);
-player.setX(25);
-player.setY(25);
+var player = new Player({name: ':D', level: 1, model: 'character.png', position: {x: 10, y: 10}});
 entities.push(player);
-
-var playerTwo = new Player('Lizzyboo', 1);
-playerTwo.setX(100);
-playerTwo.setY(100);
-entities.push(playerTwo);
 
 var fps = 60;
 var now;
