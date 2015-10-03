@@ -38,8 +38,14 @@ var update = function() {
  *  @description    Draws the current state of the game to the canvas.
  *
  */
+
+var mapImage = new Image();
+mapImage.src = 'map1.png';
+
 var draw = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    ctx.drawImage(mapImage, 0, 0);
 
     entities.forEach(function(entity) {
         entity.draw();
@@ -71,12 +77,12 @@ window.addEventListener('keyup', function(event) {
 
 var entities = [];
 
-var player = new Player('Blake', 1);
+var player = new Player('  :D  ', 1);
 player.setX(25);
 player.setY(25);
 entities.push(player);
 
-var playerTwo = new Player('Lizzyboo', 1);
+var playerTwo = new Player('   :)   ', 1);
 playerTwo.setX(100);
 playerTwo.setY(100);
 entities.push(playerTwo);
