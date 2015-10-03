@@ -45,4 +45,4 @@ var Player = function(playerData) {
         this.setX(this.posX += x);
         this.setY(this.posY += y);
     };
-}
+};
