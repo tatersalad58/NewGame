@@ -120,7 +120,19 @@ var Player = function() {
             if (typeof this.inventory[itemIndex].onUse !== 'function') {
                 return false;
             }
-            this.inventory[itemIndex].onUse(this);
+
+            var item = this.inventory[itemIndex];
+            var result = item.onUse(this);
+
+            if (result.error === true) {
+                console.log(result.message);
+                return false;
+            }
+
+            if (item.consumedOnUse === true) {
+                this.inventory.splice(itemIndex, 1);
+            }
+
             return true;
         }
     };
