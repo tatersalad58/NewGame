@@ -13,9 +13,6 @@ mapImage.src = 'map1.png';
 var world = new WorldSpace();
 var player = new Player().create(world, {name: 'Juicebox', level: 1, model: 'character.png', position: {x: 50, y: 10}});
 
-var itemIndex = player.addItem(moneyItem1);
-player.useItem(itemIndex);
-
 // Main game loop.
 //
 (function() {
