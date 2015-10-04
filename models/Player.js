@@ -7,6 +7,7 @@ var Player = function() {
     var name;
     var level;
     var health;
+    var maxHealth;
     var wallet;
     var inventory;
 
@@ -32,7 +33,8 @@ var Player = function() {
             this.name   = playerData.name   || '';
             this.level  = playerData.level  || 1;
             this.wallet = playerData.wallet || 0;
-            this.health = playerData.health || 100;
+            this.maxHealth = playerData.maxHealth || 100;
+            this.health = this.maxHealth;
             this.inventory = [];
         
             parent.addEntity(this);
@@ -118,7 +120,19 @@ var Player = function() {
             if (typeof this.inventory[itemIndex].onUse !== 'function') {
                 return false;
             }
-            this.inventory[itemIndex].onUse(this);
+
+            var item = this.inventory[itemIndex];
+            var result = item.onUse(this);
+
+            if (result.error === true) {
+                console.log(result.message);
+                return false;
+            }
+
+            if (item.consumedOnUse === true) {
+                this.inventory.splice(itemIndex, 1);
+            }
+
             return true;
         }
     };
