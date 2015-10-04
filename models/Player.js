@@ -26,6 +26,7 @@ var Player = function() {
             this.height = 88;
         
             parent.addEntity(this);
+            return this;
         },
 
         /**
@@ -35,7 +36,7 @@ var Player = function() {
          */
         draw: function() {
             ctx.save();
-            ctx.drawImage(model, posX, posY);
+            ctx.drawImage(model, this.posX, this.posY);
             ctx.restore();
         },
 
