@@ -10,7 +10,7 @@ var createItem = function(itemProperties) {
 	thisItem.type	= itemProperties.type;
 	thisItem.onUse	= itemProperties.onUse;
 
-	thisItem.reusable = itemProperties.consumedOnUse;
+	thisItem.consumedOnUse = itemProperties.consumedOnUse;
 
 	return thisItem;
 };
@@ -27,7 +27,7 @@ var moneyItem1 = createItem({
 		parent.wallet += amount;
 		console.log('Received $' + amount);
 
-		return false;
+		return true;
 	}
 });
 
@@ -45,11 +45,11 @@ var healthItem1 = createItem({
 		// Set new health.
 		parent.health += 75;
 
-		// Check that we're not over max health again.
+		// Check that we're not over max health
 		if (parent.health >= parent.maxHealth) {
 			parent.health = parent.maxHealth;
 		}
 
-		return false;
+		return true;
 	}
 });
