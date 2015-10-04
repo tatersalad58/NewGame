@@ -26,12 +26,8 @@ var update = function() {
  */
 var draw = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
     ctx.drawImage(mapImage, 0, 0);
-
-    entities.forEach(function(entity) {
-        entity.draw();
-    });
+    world.drawAll();
 };
 
 // Main game loop.
@@ -60,9 +56,8 @@ window.addEventListener('keyup', function(event) {
 var mapImage = new Image();
 mapImage.src = 'map1.png';
 
-var entities = [];
-var player = new Player({name: 'Juicebox', level: 1, model: 'character.png', position: {x: 50, y: 10}});
-entities.push(player);
+var world = new WorldSpace();
+var player = new Player().create(world, {name: 'Juicebox', level: 1, model: 'character.png', position: {x: 50, y: 10}});
 
 var fps = 60;
 var now;
