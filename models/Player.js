@@ -1,18 +1,17 @@
 var Player = function() {
-    var uid     = '';
-    var name    = '';
-    var level   = 1;
-    var posX    = 0;
-    var posY    = 0;
-    var width   = 0;
-    var height  = 0;
     var model   = new Image();
+    var posX;
+    var posY;
+    var width;
+    var height;
+    var name;
+    var level;
+    var health;
+    var wallet;
+    var inventory;
 
     return {
         create: function(parent, playerData) {
-            
-            // https://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
-            this.uid = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36).slice(-4));
 
             this.name   = playerData.name   || '';
             this.level  = playerData.level  || 1;
@@ -24,6 +23,11 @@ var Player = function() {
 
             this.width  = 64;
             this.height = 88;
+
+            this.wallet = 0;
+            this.health = 100;
+
+            this.inventory = [];
         
             parent.addEntity(this);
             return this;
@@ -84,6 +88,27 @@ var Player = function() {
         setPositionOffset: function(x, y) {
             this.setX(this.posX += x);
             this.setY(this.posY += y);
+        },
+
+        addItem: function(item) {
+            return this.inventory.push(item);
+        },
+
+        hasItem: function(searchItem) {
+            this.inventory.forEach(function(item) {
+                if (item.name == searchItem.name) {
+                    return true;
+                }
+            });
+            return false;
+        },
+
+        useItem: function(itemIndex) {
+            if (typeof this.inventory[itemIndex].onUse !== 'function') {
+                return false;
+            }
+            this.inventory[itemIndex].onUse(this);
+            return true;
         }
     };
 };

@@ -1,13 +1,20 @@
-// Global variables.
+// Initialize canvas and context object globals.
 //
 var canvas  = document.getElementById('gameContent');
 var ctx     = canvas.getContext('2d');
 
+// Initialize map object global.
+//
 var mapImage = new Image();
 mapImage.src = 'map1.png';
 
+// Initialize worldspace global.
+//
 var world = new WorldSpace();
 var player = new Player().create(world, {name: 'Juicebox', level: 1, model: 'character.png', position: {x: 50, y: 10}});
+
+var itemIndex = player.addItem(moneyItem1);
+player.useItem(itemIndex-1);
 
 // Main game loop.
 //
