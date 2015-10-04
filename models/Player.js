@@ -32,8 +32,8 @@ var Player = function(playerData) {
      *
      */
     this.setX = function(x) {
-        if (x > canvas.width - this.width * 2) {
-            this.posX = canvas.width - this.width * 2;
+        if (x > canvas.width - this.width) {
+            this.posX = canvas.width - this.width;
         }
         if (x < 0) {
             this.posX = 0;
