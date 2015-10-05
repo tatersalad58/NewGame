@@ -1,6 +1,6 @@
 var Scene = function() {
     this.layers = [];
-
+    this.tiles = [];
     this.renderLayer = function(layer) { };
     
     this.renderLayers = function(layers) { };
@@ -11,10 +11,13 @@ var Scene = function() {
         $.ajax({
             url: 'maps/' + name + '.json',
             type: 'JSON'
-        }).done(function() {
-            $.proxy(this.loadTileset, this);
+        }).done(function(data) {
+            console.log(data);
         });
     };
+    
 };
 
 var s = new Scene();
+var variable;
+s.load("Test", variable);
