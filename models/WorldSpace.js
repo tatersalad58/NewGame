@@ -47,6 +47,10 @@ var WorldSpace = function() {
         this.ctx.fillStyle = 'white';
         this.ctx.font = '15px Arial';
         this.ctx.fillText(text, 5, canvas.height - 10);
+
+        // TESTING
+        var text = 'Debug: [ I ] Add Money';
+        this.ctx.fillText(text, canvas.width - 160 , canvas.height - 10);
         this.ctx.restore();
     };
 

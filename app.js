@@ -55,6 +55,12 @@ var startGame = function() {
         if (event.keyCode == 38) { currentInput.up      = true; }
         if (event.keyCode == 39) { currentInput.right   = true; }
         if (event.keyCode == 40) { currentInput.down    = true; }
+
+        // Debug
+        if (event.keyCode == 73) {
+            var i = window.player.addItem(moneyItem1);
+            window.player.useItem(i);
+        }
     }, true);
 
     window.addEventListener('keyup', function(event) {

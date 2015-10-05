@@ -1,0 +1,12 @@
+Immediate
+- Game canvas scrolls with the player's movement.
+
+Soon
+- Map collision.
+- Switch between different maps.
+
+Later
+- Server-side validation via socket.io.
+- Player stat saving via mongodb.
+- Authentication via jwt.
+- Play with other players.
