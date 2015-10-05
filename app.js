@@ -1,11 +1,5 @@
-//
 var canvas  = document.getElementById('gameContent');
 var ctx     = canvas.getContext('2d');
-
-// Application configuration.
-//
-ctx.font = '15px Arial';
-ctx.fillStyle = 'white';
 
 /**
  *  @name           update()
@@ -13,10 +7,25 @@ ctx.fillStyle = 'white';
  *
  */
 var update = function() {
-    if (currentInput.right) { player.setX(player.posX += 3); }
-    if (currentInput.down)  { player.setY(player.posY += 3); }
-    if (currentInput.up)    { player.setY(player.posY -= 3); }
-    if (currentInput.left)  { player.setX(player.posX -= 3); }
+    var currentInput = window.currentInput;
+    var player = window.player;
+
+    if (currentInput.right) { 
+        player.setX(player.posX += 3); 
+        player.direction = 'right';
+    }
+    if (currentInput.down)  { 
+        player.setY(player.posY += 3); 
+        player.direction = 'down';
+    }
+    if (currentInput.up)    { 
+        player.setY(player.posY -= 3); 
+        player.direction = 'up';
+    }
+    if (currentInput.left)  {
+        player.setX(player.posX -= 3); 
+        player.direction = 'left';
+    }
 };
 
 /**
@@ -26,57 +35,80 @@ var update = function() {
  */
 var draw = function() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(mapImage, 0, 0);
-    world.drawAll();
+    window.worldSpace.drawAll();
 };
 
 // Main game loop.
 //
-var currentInput = {
-    up: false,
-    down: false,
-    left: false,
-    right: false
-};
+var startGame = function() {
 
-window.addEventListener('keydown', function(event) {
-    if (event.keyCode == 37) { currentInput.left    = true; }
-    if (event.keyCode == 38) { currentInput.up      = true; }
-    if (event.keyCode == 39) { currentInput.right   = true; }
-    if (event.keyCode == 40) { currentInput.down    = true; }
-}, true);
+    // Input handlers.
+    window.currentInput = {
+        up: false,
+        down: false,
+        left: false,
+        right: false
+    };
 
-window.addEventListener('keyup', function(event) {
-    if (event.keyCode == 37) { currentInput.left    = false; }
-    if (event.keyCode == 38) { currentInput.up      = false; }
-    if (event.keyCode == 39) { currentInput.right   = false; }
-    if (event.keyCode == 40) { currentInput.down    = false; }
-}, true);
+    window.addEventListener('keydown', function(event) {
+        if (event.keyCode == 37) { currentInput.left    = true; }
+        if (event.keyCode == 38) { currentInput.up      = true; }
+        if (event.keyCode == 39) { currentInput.right   = true; }
+        if (event.keyCode == 40) { currentInput.down    = true; }
+    }, true);
 
-var mapImage = new Image();
-mapImage.src = 'map1.png';
+    window.addEventListener('keyup', function(event) {
+        if (event.keyCode == 37) { currentInput.left    = false; }
+        if (event.keyCode == 38) { currentInput.up      = false; }
+        if (event.keyCode == 39) { currentInput.right   = false; }
+        if (event.keyCode == 40) { currentInput.down    = false; }
+    }, true);
 
-var world = new WorldSpace();
-var player = new Player().create(world, {name: 'Juicebox', level: 1, model: 'character.png', position: {x: 50, y: 10}});
+    // Local inititalization variables.
+    var mapImage = new Image();
+    mapImage.src = 'map1.png';
 
-var fps = 60;
-var now;
-var then = Date.now();
-var interval = 1000 / fps;
-var delta;
+    var playerSprite = new Image();
+    playerSprite.src = 'character.png';
 
-var loop = function() {
+    window.worldSpace = new WorldSpace().create(ctx);
+    window.worldSpace.setWorld(mapImage);
+
+    window.player = new Player().create(worldSpace, {
+        name: 'Juicebox', 
+        level: 1,
+        sprite: new Sprite({
+            ctx: ctx,
+            width: 448 / 7,
+            height: 256 / 4,
+            image: playerSprite
+        }),
+        position: {
+            x: 50, 
+            y: 10
+        }
+    });
+
+    // Game loop.
+    var fps = 60;
+    var now;
+    var then = Date.now();
+    var interval = 1000 / fps;
+    var delta;
+
+    var loop = function() {
+        requestAnimationFrame(loop);
+
+        now = Date.now();
+        delta = now - then;
+
+        if (delta > interval) {
+            then = now - (delta % interval);
+
+            update();
+            draw();
+        }
+    };
+
     requestAnimationFrame(loop);
-
-    now = Date.now();
-    delta = now - then;
-
-    if (delta > interval) {
-        then = now - (delta % interval);
-
-        update();
-        draw();
-    }
 };
-
-requestAnimationFrame(loop);

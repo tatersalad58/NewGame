@@ -6,24 +6,38 @@ var Player = function() {
     var posY    = 0;
     var width   = 0;
     var height  = 0;
-    var model   = new Image();
+    var sprite  = {};
+    var direction = '';
+
+    var facing = {
+        up:     [0, 0],
+        left:   [0, 1],
+        down:   [0, 2],
+        right:  [0, 3]        
+    };
 
     return {
-        create: function(parent, playerData) {
-            
-            // https://stackoverflow.com/questions/6248666/how-to-generate-short-uid-like-ax4j9z-in-js
-            this.uid = ('0000' + (Math.random() * Math.pow(36, 4) << 0).toString(36).slice(-4));
 
+        /**
+         *  @name           Player.create
+         *  @params         parent - Canvas context element.
+         *                  playerData - Object of player initialization data.
+         *
+         *
+         */
+        create: function(parent, playerData) {
             this.name   = playerData.name   || '';
             this.level  = playerData.level  || 1;
 
             this.posX = playerData.position.x || 0;
             this.posY = playerData.position.y || 0;
 
-            model.src  = playerData.model;
+            this.sprite = playerData.sprite;
 
             this.width  = 64;
             this.height = 88;
+
+            this.direction = playerData.facing || 'down';
         
             parent.addEntity(this);
             return this;
@@ -35,9 +49,19 @@ var Player = function() {
          *
          */
         draw: function() {
-            ctx.save();
-            ctx.drawImage(model, this.posX, this.posY);
-            ctx.restore();
+            if (this.direction == 'left') {
+                this.sprite.draw(facing.left[0], facing.left[1], this.posX, this.posY);
+            }
+            else if (this.direction == 'right') {
+                this.sprite.draw(facing.right[0], facing.right[1], this.posX, this.posY);
+            }
+            else if (this.direction == 'up') {
+                this.sprite.draw(facing.up[0], facing.up[1], this.posX, this.posY);
+            }
+            else if (this.direction == 'down') {
+                this.sprite.draw(facing.down[0], facing.down[1], this.posX, this.posY);
+            }
+            
         },
 
         /**
