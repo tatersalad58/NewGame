@@ -36,11 +36,18 @@ var WorldSpace = function() {
      *
      */
     this.drawAll = function() {
+        this.ctx.save();
         this.ctx.drawImage(this.map, 0, 0);
 
         this.entities.forEach(function(entity) {
             entity.draw();
         });
+
+        var text = 'Health: ' + this.entities[0].health + ' | Wallet: ' + this.entities[0].wallet
+        this.ctx.fillStyle = 'white';
+        this.ctx.font = '15px Arial';
+        this.ctx.fillText(text, 5, canvas.height - 10);
+        this.ctx.restore();
     };
 
     /**
