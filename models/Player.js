@@ -1,13 +1,17 @@
 var Player = function() {
-    var uid     = '';
-    var name    = '';
-    var level   = 1;
-    var posX    = 0;
-    var posY    = 0;
-    var width   = 0;
-    var height  = 0;
-    var sprite  = {};
-    var direction = '';
+    var posX;
+    var posY;
+    var width;
+    var height;
+    var sprite;
+    var direction;
+
+    var name;
+    var level;
+    var health;
+    var maxHealth;
+    var wallet;
+    var inventory;
 
     var facing = {
         up:     [0, 0],
@@ -26,18 +30,23 @@ var Player = function() {
          *
          */
         create: function(parent, playerData) {
-            this.name   = playerData.name   || '';
+            this.name   = playerData.name   || 'New001';
             this.level  = playerData.level  || 1;
 
             this.posX = playerData.position.x || 0;
             this.posY = playerData.position.y || 0;
 
-            this.sprite = playerData.sprite;
+            this.sprite = playerData.sprite || {};
 
             this.width  = 64;
             this.height = 88;
 
             this.direction = playerData.facing || 'down';
+
+            this.health = playerData.health || 100;
+            this.maxHealth = playerData.maxHealth || 100;
+            this.wallet = playerData.wallet || 0;
+            this.inventory = [];
         
             parent.addEntity(this);
             return this;
@@ -108,6 +117,44 @@ var Player = function() {
         setPositionOffset: function(x, y) {
             this.setX(this.posX += x);
             this.setY(this.posY += y);
+        },
+
+        /**
+         *  @name           Player.addItem
+         *  @params         item - Full object of an item to add to the player's inventory.
+         *  @description    Adds an item to the player's inventory.
+         *  @return         The index of the created item in the player's inventory.
+         *
+         */
+        addItem: function(item) {
+            return this.inventory.push(item) - 1;
+        },
+
+          /**
+         *  @name           Player.useItem()
+         *  @params         itemIndex - the index of the item in the player's inventory to use.
+         *  @description    Calls the onUse method of an object in the player's inventory.
+         *  @return         True if the item was used, false if the item could not be used.
+         *
+         */
+        useItem: function(itemIndex) {
+            if (typeof this.inventory[itemIndex].onUse !== 'function') {
+                return false;
+            }
+
+            var item = this.inventory[itemIndex];
+            var result = item.onUse(this);
+
+            if (result.error === true) {
+                console.log(result.message);
+                return false;
+            }
+
+            if (item.consumedOnUse === true) {
+                this.inventory.splice(itemIndex, 1);
+            }
+
+            return true;
         }
     };
 };
