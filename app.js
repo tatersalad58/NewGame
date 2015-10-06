@@ -96,25 +96,12 @@ var startGame = function() {
     });
 
     // Game loop.
-    var fps = 60;
-    var now;
-    var then = Date.now();
-    var interval = 1000 / fps;
-    var delta;
+    var think = function() {
+        update();
+        draw();
 
-    var loop = function() {
-        requestAnimationFrame(loop);
-
-        now = Date.now();
-        delta = now - then;
-
-        if (delta > interval) {
-            then = now - (delta % interval);
-
-            update();
-            draw();
-        }
+        requestAnimationFrame(think, canvas);
     };
 
-    requestAnimationFrame(loop);
+    requestAnimationFrame(think, canvas);
 };
