@@ -24,7 +24,7 @@ var Player = function() {
 
         /**
          *  @name           Player.create
-         *  @params         parent - Canvas context element.
+         *  @params         parent - WorldSpace instance that the player will exist in.
          *                  playerData - Object of player initialization data.
          *
          *
