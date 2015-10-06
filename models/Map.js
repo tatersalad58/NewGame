@@ -10,7 +10,7 @@ var Scene = function() {
     this.load = function(name) {
         $.ajax({
             url: 'maps/' + name + '.json',
-            type: 'JSONP'
+            type: 'JSON'
         }).done(function(data) {
             console.log(data);
         });
