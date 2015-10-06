@@ -96,6 +96,7 @@ var startGame = function() {
     });
 
     // Game loop.
+    /*
     var fps = 60;
     var now;
     var then = Date.now();
@@ -117,4 +118,14 @@ var startGame = function() {
     };
 
     requestAnimationFrame(loop);
+    */
+
+    var think = function() {
+        update();
+        draw();
+
+        requestAnimationFrame(think, canvas);
+    };
+
+    requestAnimationFrame(think, canvas);
 };
