@@ -92,8 +92,13 @@ var startGame = function() {
         position: {
             x: 50, 
             y: 10
-        }
+        },
+        health: 3
     });
+
+    // TEST
+    var item = window.player.addItem(healthItem02);
+    window.player.useItem(item);
 
     // Game loop.
     var think = function() {

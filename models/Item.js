@@ -1,55 +1,63 @@
 var Item = {
-	name: 'Default',
-	type: undefined,
+	TYPE_GENERIC: 	 	1 << 1,
+	TYPE_CONSUMABLE: 	1 << 2,
+	TYPE_ARMOR: 	 	1 << 3,
+	TYPE_WEAPON: 		1 << 4,
+	TYPE_SOULBOUND: 	1 << 5,
+	TYPE_UNIQUE: 		1 << 6,
 };
 
 var createItem = function(itemProperties) {
-	var thisItem	= Object.create(Item);
+	var thisItem	= {};
 
 	thisItem.name	= itemProperties.name;
 	thisItem.type	= itemProperties.type;
 	thisItem.onUse	= itemProperties.onUse;
+	thisItem.onEquip = itemProperties.onEquip;
 
 	thisItem.consumedOnUse = itemProperties.consumedOnUse;
 
 	return thisItem;
 };
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 var moneyItem1 = createItem({
 	name: 'A lost wallet',
-	type: 'generic',
+	type: Item.CONSUMABLE,
 	consumedOnUse: true,
+
 	onUse: function(parent) {
 		var minMoney = 75,
 			maxMoney = 100;
 		var amount = Math.floor(Math.random() * (maxMoney - minMoney) + minMoney);
 
 		parent.wallet += amount;
-		console.log('Received $' + amount);
 
 		return true;
 	}
 });
 
-var healthItem1 = createItem({
-	name: 'Doctor\'s Bag',
-	type: 'generic',
+var healthItem01 = createItem({
+	name: 'Bottle of Vitamins',
+	type: Item.CONSUMABLE,
 	consumedOnUse: true,
+
 	onUse: function(parent) {
+		parent.addAura(healthRegen01);
+		return true;
+	}
+});
 
-		// Check that we aren't already at max health.
-		if (parent.health >= parent.maxHealth) {
-			return {error: true, message: 'Already at max health.'};
-		}
+var healthItem02 = createItem({
+	name: 'Syringe Injection',
+	type: Item.CONSUMABLE,
+	consumedOnUse: true,
 
-		// Set new health.
-		parent.health += 75;
-
-		// Check that we're not over max health
-		if (parent.health >= parent.maxHealth) {
-			parent.health = parent.maxHealth;
-		}
-
+	onUse: function(parent) {
+		parent.addAura(healthRegen02);
 		return true;
 	}
 });
