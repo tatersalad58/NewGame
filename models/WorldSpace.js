@@ -3,6 +3,9 @@ var WorldSpace = function() {
     this.ctx;
     this.map;
 
+    this.offsetX = 0;
+    this.offsetY = 0;
+
     /**
      *  @name           WorldSpace.create
      *  @params         parent - Canvas context element.
@@ -37,7 +40,7 @@ var WorldSpace = function() {
      */
     this.drawAll = function() {
         this.ctx.save();
-        this.ctx.drawImage(this.map, 0, 0);
+        this.ctx.drawImage(this.map, this.offsetX, this.offsetY);
 
         this.entities.forEach(function(entity) {
             entity.draw();
@@ -49,8 +52,10 @@ var WorldSpace = function() {
         this.ctx.fillText(text, 5, canvas.height - 10);
 
         // TESTING
-        var text = 'Debug: [ I ] Add Money';
-        this.ctx.fillText(text, canvas.width - 160 , canvas.height - 10);
+        var text = '[I] Lost Wallet';
+        this.ctx.fillText(text, canvas.width - 100 , canvas.height - 10);
+        text = '[K] Syringe Injection';
+        this.ctx.fillText(text, canvas.width - 143 , canvas.height - 30);
         this.ctx.restore();
     };
 
