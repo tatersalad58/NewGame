@@ -1,3 +1,4 @@
+/*
 var Scene = function() {
     this.layers = [];
 
@@ -18,3 +19,4 @@ var Scene = function() {
 };
 
 var s = new Scene();
+*/
