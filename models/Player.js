@@ -31,7 +31,6 @@ var Player = function() {
          *  @params         parent - Canvas context element.
          *                  playerData - Object of player initialization data.
          *
-         *
          */
         create: function(parent, playerData) {
             this.uid = 'xxxx-yxxx'.replace(/[xy]/g, function(c) {
@@ -90,42 +89,22 @@ var Player = function() {
 
         /**
          *  @name           Player.setX
-         *  @params         x - The new x-coordinate on the canvas.
-         *  @description    Changes the x-coordinate of the player object on the canvas.
-         *                  Checks to make sure that the coordinate is within bounds of
-         *                  the playable area.
+         *  @params         offset - This object's new x-coordinate.
+         *  @description    Draws the canvas to be relative to the player's position in the world.
          *
          */
         setX: function(offset) {
             this.parent.offsetX -= offset;
-            /*
-            if (x > canvas.width - this.width) {
-                this.posX = canvas.width - this.width;
-            }
-            if (x < 0) {
-                this.posX = 0;
-            }
-            */
         },
 
         /**
          *  @name           Player.setY
-         *  @params         y - The new y-coordinate on the canvas.
-         *  @description    Changes the y-coordinate of the player object on the canvas.
-         *                  Checks to make sure that the coordinate is within bounds of
-         *                  the playable area.
+         *  @params         offset - This object's new y-coordinate.
+         *  @description    Draws the canvas to be relative to the player's position in the world.
          *
          */
         setY: function(offset) {
             this.parent.offsetY -= offset;
-            /*
-            if (y > canvas.height - this.height) {
-                this.posY = canvas.height - this.height;
-            }
-            if (y < 0) {
-                this.posY = 0;
-            }
-            */
         },
 
         /**
@@ -151,8 +130,8 @@ var Player = function() {
             return this.inventory.push(item) - 1;
         },
 
-          /**
-         *  @name           Player.useItem()
+        /**
+         *  @name           Player.useItem
          *  @params         itemIndex - the index of the item in the player's inventory to use.
          *  @description    Calls the onUse method of an object in the player's inventory.
          *  @return         True if the item was used, false if the item could not be used.
@@ -178,11 +157,24 @@ var Player = function() {
             return true;
         },
 
+        /**
+         *  @name           Player.addAura
+         *  @params         aura - Initialized aura object.
+         *  @description    Adds an aura to the player and calls it's activation method.
+         *
+         */
         addAura: function(aura) {
             var auraId = this.auras.push(aura);
             aura.onAdd(this);
         },
 
+        /**
+         *  @name           Player.removeAura
+         *  @params         auraId - The index of the aura.
+         *  @description    Checks that the player has the given aura index, removes it, and
+         *                  calls it's removal method.
+         *
+         */
         removeAura: function(auraId) {
             if (typeof this.auras[auraId] != 'object') {
                 return false;
@@ -192,6 +184,13 @@ var Player = function() {
             this.auras[auraId].onRemove(this);
         },
 
+        /**
+         *  @name           Player.addHealth
+         *  @params         amount - Amount of health to add.
+         *  @description    Adds a given amount of healths to a player, and checks that it doesn't
+         *                  go over the player's maxiumum health.
+         *
+         */
         addHealth: function(amount) {
             if (this.health >= this.maxHealth) {
                 return false;
