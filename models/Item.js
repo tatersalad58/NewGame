@@ -21,7 +21,7 @@ var createItem = function(itemProperties) {
     }
 
     var thisItem            = {};
-    thisItem.id             = itemProperites.id;
+    thisItem.id             = itemProperties.id;
     thisItem.name           = itemProperties.name           || 'No Name';
     thisItem.type           = itemProperties.type           || Item.TYPE_GENERIC;
     thisItem.consumedOnUse  = itemProperties.consumedOnUse  || false;
