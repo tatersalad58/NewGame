@@ -1,17 +1,30 @@
+// Aura type enum.
 var Aura = {
     TYPE_BENEFICIAL:    1 << 1,
     TYPE_HARMFUL:       1 << 2,
 };
 
+/**
+ *  @name           createAura
+ *  @params         properties - Object of aura initialization properties. 
+ *  @description    Factory function to create auras.
+ *  @returns        The created aura.
+ *
+ */
 var createAura = function(properties) {
+    if (typeof properties.id == 'undefined') {
+        return false;
+    }
+
     var thisAura            = {};
+    thisAura.id             = properties.id;
     thisAura.name           = properties.name       || 'No Name';
     thisAura.shortName      = properties.shortName  || 'No Name';
-    thisAura.type           = properties.type       || undefined;
-    thisAura.frequency      = properties.frequency  || undefined;
-    thisAura.onAdd          = properties.onAdd      || undefined;
-    thisAura.onRemoval      = properties.onRemoval  || undefined;
-    thisAura.onTick         = properties.onTick     || undefined;
+    thisAura.type           = properties.type;
+    thisAura.frequency      = properties.frequency;
+    thisAura.onAdd          = properties.onAdd;
+    thisAura.onRemoval      = properties.onRemoval;
+    thisAura.onTick         = properties.onTick;
     thisAura.ticks          = 0;
     thisAura.timerId        = 0;
 
@@ -19,7 +32,7 @@ var createAura = function(properties) {
 };
 
 var healthRegen01 = createAura({
-
+    id: 1,
     shortName: 'HealthRegen01',
     name: 'Bottle of Vitamins Regeneration',
     type: Aura.TYPE_BENEFICIAL,
@@ -39,12 +52,11 @@ var healthRegen01 = createAura({
 
     onRemoval: function(parent) {
         clearInterval(this.timerId);
-        console.log('Buff removed.');
     }
 });
 
 var healthRegen02 = createAura({
-
+    id: 2,
     shortName: 'HealthRegen02',
     name: 'Syringe Injection Regeneration',
     type: Aura.TYPE_BENEFICIAL,
