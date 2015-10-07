@@ -109,4 +109,15 @@ var startGame = function() {
     };
 
     requestAnimationFrame(think, window.canvas);
+
+    $("#up").mousedown(function(event) { currentInput.up = true; });
+    $("#down").mousedown(function(event) { currentInput.down = true; });
+    $("#right").mousedown(function(event) { currentInput.right = true; });
+    $("#left").mousedown(function(event) { currentInput.left = true; });
+
+    $("#up").mouseup(function(event) { currentInput.up = false; });
+    $("#down").mouseup(function(event) { currentInput.down = false; });
+    $("#right").mouseup(function(event) { currentInput.right = false; });
+    $("#left").mouseup(function(event) { currentInput.left = false; });
+
 };
