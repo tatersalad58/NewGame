@@ -14,6 +14,8 @@ var Player = function() {
     var wallet;
     var inventory;
     var auras;
+
+    var parent;
     
     var facing = {
         up:     [0, 0],
@@ -26,13 +28,12 @@ var Player = function() {
 
         /**
          *  @name           Player.create
-         *  @params         parent - Canvas context element.
+         *  @params         parent - WorldSpace instance that the player will exist in.
          *                  playerData - Object of player initialization data.
          *
          *
          */
         create: function(parent, playerData) {
-
             this.uid = 'xxxx-yxxx'.replace(/[xy]/g, function(c) {
                 var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
                 return v.toString(16);
@@ -58,6 +59,8 @@ var Player = function() {
             this.inventory = [];
             this.auras = [];
 
+            this.parent = parent;
+
             parent.addEntity(this);
             return this;
         },
@@ -68,17 +71,19 @@ var Player = function() {
          *
          */
         draw: function() {
+            var center = [window.canvas.width / 2, window.canvas.height / 2];
+
             if (this.direction == 'left') {
-                this.sprite.draw(facing.left[0], facing.left[1], this.posX, this.posY);
+                this.sprite.draw(facing.left[0], facing.left[1], center[0], center[1]);
             }
             else if (this.direction == 'right') {
-                this.sprite.draw(facing.right[0], facing.right[1], this.posX, this.posY);
+                this.sprite.draw(facing.right[0], facing.right[1], center[0], center[1]);
             }
             else if (this.direction == 'up') {
-                this.sprite.draw(facing.up[0], facing.up[1], this.posX, this.posY);
+                this.sprite.draw(facing.up[0], facing.up[1], center[0], center[1]);
             }
             else if (this.direction == 'down') {
-                this.sprite.draw(facing.down[0], facing.down[1], this.posX, this.posY);
+                this.sprite.draw(facing.down[0], facing.down[1], center[0], center[1]);
             }
             
         },
@@ -91,13 +96,16 @@ var Player = function() {
          *                  the playable area.
          *
          */
-        setX: function(x) {
+        setX: function(offset) {
+            this.parent.offsetX -= offset;
+            /*
             if (x > canvas.width - this.width) {
                 this.posX = canvas.width - this.width;
             }
             if (x < 0) {
                 this.posX = 0;
             }
+            */
         },
 
         /**
@@ -108,13 +116,16 @@ var Player = function() {
          *                  the playable area.
          *
          */
-        setY: function(y) {
+        setY: function(offset) {
+            this.parent.offsetY -= offset;
+            /*
             if (y > canvas.height - this.height) {
                 this.posY = canvas.height - this.height;
             }
             if (y < 0) {
                 this.posY = 0;
             }
+            */
         },
 
         /**

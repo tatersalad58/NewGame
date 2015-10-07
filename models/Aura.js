@@ -31,8 +31,8 @@ var healthRegen01 = createAura({
 
     onTick: function(self, parent) {
         self.ticks++;
-        parent.addHealth(3);
-        if (self.ticks == 10) {
+        parent.addHealth(5);
+        if (self.ticks >= 10) {
             self.onRemoval(parent);
         }
     },
@@ -48,7 +48,7 @@ var healthRegen02 = createAura({
     shortName: 'HealthRegen02',
     name: 'Syringe Injection Regeneration',
     type: Aura.TYPE_BENEFICIAL,
-    frequency: 1000,
+    frequency: 500,
 
     onAdd: function(parent) {
         this.timerId = setInterval(this.onTick, this.frequency, this, parent);
@@ -56,7 +56,7 @@ var healthRegen02 = createAura({
 
     onTick: function(self, parent) {
         self.ticks++;
-        parent.addHealth(5);
+        parent.addHealth(3);
         if (self.ticks == 10) {
             self.onRemoval(parent);
         }
