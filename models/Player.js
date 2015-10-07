@@ -24,10 +24,6 @@ var Player = function() {
 
     return {
 
-        createUID: function() {
-
-        },
-
         /**
          *  @name           Player.create
          *  @params         parent - Canvas context element.
