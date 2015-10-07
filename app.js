@@ -1,5 +1,5 @@
-var canvas  = document.getElementById('gameContent');
-var ctx     = canvas.getContext('2d');
+window.canvas  = document.getElementById('gameContent');
+window.ctx     = window.canvas.getContext('2d');
 
 /**
  *  @name           update()
@@ -11,19 +11,19 @@ var update = function() {
     var player = window.player;
 
     if (currentInput.right) { 
-        player.setX(player.posX += 3); 
+        player.setX(3); 
         player.direction = 'right';
     }
     if (currentInput.down)  { 
-        player.setY(player.posY += 3); 
+        player.setY(3); 
         player.direction = 'down';
     }
     if (currentInput.up)    { 
-        player.setY(player.posY -= 3); 
+        player.setY(-3); 
         player.direction = 'up';
     }
     if (currentInput.left)  {
-        player.setX(player.posX -= 3); 
+        player.setX(-3); 
         player.direction = 'left';
     }
 };
@@ -34,7 +34,7 @@ var update = function() {
  *
  */
 var draw = function() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, window.canvas.width, window.canvas.height);
     window.worldSpace.drawAll();
 };
 
@@ -55,12 +55,6 @@ var startGame = function() {
         if (event.keyCode == 38) { currentInput.up      = true; }
         if (event.keyCode == 39) { currentInput.right   = true; }
         if (event.keyCode == 40) { currentInput.down    = true; }
-
-        // Debug
-        if (event.keyCode == 73) {
-            var i = window.player.addItem(moneyItem1);
-            window.player.useItem(i);
-        }
     }, true);
 
     window.addEventListener('keyup', function(event) {
@@ -68,6 +62,16 @@ var startGame = function() {
         if (event.keyCode == 38) { currentInput.up      = false; }
         if (event.keyCode == 39) { currentInput.right   = false; }
         if (event.keyCode == 40) { currentInput.down    = false; }
+
+        // Testing
+        if (event.keyCode == 73) {
+            var i = window.player.addItem(moneyItem1);
+            window.player.useItem(i);
+        }
+        if (event.keyCode == 75) {
+            var i = window.player.addItem(healthItem02);
+            window.player.useItem(i);
+        }
     }, true);
 
     // Local inititalization variables.
@@ -96,17 +100,13 @@ var startGame = function() {
         health: 3
     });
 
-    // TEST
-    var item = window.player.addItem(healthItem02);
-    window.player.useItem(item);
-
     // Game loop.
     var think = function() {
         update();
         draw();
 
-        requestAnimationFrame(think, canvas);
+        requestAnimationFrame(think, window.canvas);
     };
 
-    requestAnimationFrame(think, canvas);
+    requestAnimationFrame(think, window.canvas);
 };
