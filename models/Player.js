@@ -6,13 +6,15 @@ var Player = function() {
     var sprite;
     var direction;
 
+    var uid;
     var name;
     var level;
     var health;
     var maxHealth;
     var wallet;
     var inventory;
-
+    var auras;
+    
     var facing = {
         up:     [0, 0],
         left:   [0, 1],
@@ -22,6 +24,10 @@ var Player = function() {
 
     return {
 
+        createUID: function() {
+
+        },
+
         /**
          *  @name           Player.create
          *  @params         parent - Canvas context element.
@@ -30,6 +36,12 @@ var Player = function() {
          *
          */
         create: function(parent, playerData) {
+
+            this.uid = 'xxxx-yxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+
             this.name   = playerData.name   || 'New001';
             this.level  = playerData.level  || 1;
 
@@ -46,8 +58,10 @@ var Player = function() {
             this.health = playerData.health || 100;
             this.maxHealth = playerData.maxHealth || 100;
             this.wallet = playerData.wallet || 0;
+            
             this.inventory = [];
-        
+            this.auras = [];
+
             parent.addEntity(this);
             return this;
         },
@@ -138,7 +152,7 @@ var Player = function() {
          *
          */
         useItem: function(itemIndex) {
-            if (typeof this.inventory[itemIndex].onUse !== 'function') {
+            if (typeof this.inventory[itemIndex].onUse != 'function') {
                 return false;
             }
 
@@ -155,6 +169,32 @@ var Player = function() {
             }
 
             return true;
+        },
+
+        addAura: function(aura) {
+            var auraId = this.auras.push(aura);
+            aura.onAdd(this);
+        },
+
+        removeAura: function(auraId) {
+            if (typeof this.auras[auraId] != 'object') {
+                return false;
+            }
+
+            this.auras[auraId].splice(auraId, 1);
+            this.auras[auraId].onRemove(this);
+        },
+
+        addHealth: function(amount) {
+            if (this.health >= this.maxHealth) {
+                return false;
+            }
+
+            this.health += amount;
+
+            if (this.health > this.maxHealth) {
+                this.health = this.maxHealth;
+            }
         }
     };
 };
