@@ -52,7 +52,7 @@ var WorldSpace = function() {
         this.ctx.fillText(text, 5, canvas.height - 10);
 
         // TESTING
-        var text = '[I] Lost Wallet';
+        var text = '[I] Add Money';
         this.ctx.fillText(text, canvas.width - 100 , canvas.height - 10);
         text = '[K] Syringe Injection';
         this.ctx.fillText(text, canvas.width - 143 , canvas.height - 30);

@@ -12,6 +12,7 @@ var Player = function() {
     var health;
     var maxHealth;
     var wallet;
+    var armor;
     var inventory;
     var auras;
 
@@ -38,25 +39,21 @@ var Player = function() {
                 return v.toString(16);
             });
 
-            this.name   = playerData.name   || 'New001';
-            this.level  = playerData.level  || 1;
+            this.width      = 64;
+            this.height     = 88;
+            this.posX       = playerData.position.x     || 0;
+            this.posY       = playerData.position.y     || 0;
+            this.sprite     = playerData.sprite         || {};
+            this.direction  = playerData.facing         || 'down';
 
-            this.posX = playerData.position.x || 0;
-            this.posY = playerData.position.y || 0;
-
-            this.sprite = playerData.sprite || {};
-
-            this.width  = 64;
-            this.height = 88;
-
-            this.direction = playerData.facing || 'down';
-
-            this.health = playerData.health || 100;
-            this.maxHealth = playerData.maxHealth || 100;
-            this.wallet = playerData.wallet || 0;
-            
-            this.inventory = [];
-            this.auras = [];
+            this.name       = playerData.name           || 'New001';
+            this.level      = playerData.level          || 1;
+            this.health     = playerData.health         || 100;
+            this.maxHealth  = playerData.maxHealth      || 100;
+            this.wallet     = playerData.wallet         || 0;
+            this.armor      = playerData.armor          || 0;
+            this.inventory  = [];
+            this.auras      = [];
 
             this.parent = parent;
 
@@ -84,7 +81,6 @@ var Player = function() {
             else if (this.direction == 'down') {
                 this.sprite.draw(facing.down[0], facing.down[1], center[0], center[1]);
             }
-            
         },
 
         /**
@@ -200,6 +196,28 @@ var Player = function() {
 
             if (this.health > this.maxHealth) {
                 this.health = this.maxHealth;
+            }
+        },
+
+        /**
+         *  @name           Player.addHealth
+         *  @params         amount - Amount of health to add.
+         *  @description    Adds a given amount of healths to a player, and checks that it doesn't
+         *                  go over the player's maxiumum health.
+         *
+         */
+        removeHealth: function(amount) {
+            var mitigatedDamage = 0.003875 * this.armor;
+
+            if (mitigatedDamage > amount * 0.80) {
+                mitigatedDamage = amount * 0.80;
+            }
+
+            this.health -= (amount - mitigatedDamage) > 0 ? amount - mitigatedDamage : 0;
+            console.log('Blocked ' + mitigatedDamage + ' damage.');
+
+            if (this.health < 0) {
+                this.health = 0;
             }
         }
     };
