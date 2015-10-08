@@ -33,8 +33,8 @@ var createAura = function(properties) {
 
 var healthRegen01 = createAura({
     id: 1,
-    shortName: 'HealthRegen01',
     name: 'Bottle of Vitamins Regeneration',
+    shortName: 'HealthRegen01',
     type: Aura.TYPE_BENEFICIAL,
     frequency: 1000,
 
@@ -57,8 +57,8 @@ var healthRegen01 = createAura({
 
 var healthRegen02 = createAura({
     id: 2,
-    shortName: 'HealthRegen02',
     name: 'Syringe Injection Regeneration',
+    shortName: 'HealthRegen02',
     type: Aura.TYPE_BENEFICIAL,
     frequency: 500,
 
@@ -70,6 +70,54 @@ var healthRegen02 = createAura({
         self.ticks++;
         parent.addHealth(3);
         if (self.ticks == 10) {
+            self.onRemoval(parent);
+        }
+    },
+
+    onRemoval: function(parent) {
+        clearInterval(this.timerId);
+    }
+});
+
+var poisonEffect01 = createAura({
+    id: 3,
+    name: 'Poison Damage Effect',
+    shortName: 'PoisonEffect01',
+    type: Aura.TYPE_HARMFUL,
+    frequency: 1000,
+
+    onAdd: function(parent) {
+        this.timerId = setInterval(this.onTick, this.frequency, this, parent);
+    },
+
+    onTick: function(self, parent) {
+        self.ticks++;
+        parent.removeHealth(1);
+        if (self.ticks >= 10) {
+            self.onRemoval(parent);
+        }
+    },
+
+    onRemoval: function(parent) {
+        clearInterval(this.timerId);
+    }
+});
+
+var poisonEffect02 = createAura({
+    id: 4,
+    name: 'Infected Wounds Damage Effect',
+    shortName: 'InfectionEffect01',
+    type: Aura.TYPE_HARMFUL,
+    frequency: 2000,
+
+    onAdd: function(parent) {
+        this.timerId = setInterval(this.onTick, this.frequency, this, parent);
+    },
+
+    onTick: function(self, parent) {
+        self.ticks++;
+        parent.removeHealth(25);
+        if (self.ticks >= 25) {
             self.onRemoval(parent);
         }
     },

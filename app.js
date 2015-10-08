@@ -69,8 +69,7 @@ var startGame = function() {
             window.player.useItem(i);
         }
         if (event.keyCode == 75) {
-            var i = window.player.addItem(healthItem02);
-            window.player.useItem(i);
+            window.player.addAura(poisonEffect02);
         }
     }, true);
 
@@ -85,7 +84,7 @@ var startGame = function() {
     window.worldSpace.setWorld(mapImage);
 
     window.player = new Player().create(worldSpace, {
-        name: 'Juicebox', 
+        name: 'Juicebox',
         level: 1,
         sprite: new Sprite({
             ctx: ctx,
@@ -97,7 +96,8 @@ var startGame = function() {
             x: 50, 
             y: 10
         },
-        health: 3
+        health: 100,
+        armor: 5
     });
 
     // Game loop.
