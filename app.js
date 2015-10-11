@@ -81,7 +81,7 @@ var startGame = function() {
     playerSprite.src = 'character.png';
 
     window.worldSpace = new WorldSpace().create(ctx);
-    window.worldSpace.setWorld(mapImage);
+    window.worldSpace.setWorld(overworld);
 
     window.player = new Player().create(worldSpace, {
         name: 'Juicebox',
@@ -95,9 +95,7 @@ var startGame = function() {
         position: {
             x: 50, 
             y: 10
-        },
-        health: 100,
-        armor: 5
+        }
     });
 
     // Game loop.
